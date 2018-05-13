@@ -20,6 +20,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  String _usernameError;
+  String _passwordError;
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -27,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
         child: new ListView(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           children: <Widget>[
-            const SizedBox(height: 80.0),
+            const SizedBox(height: 72.0),
             new Column(
               children: <Widget>[
                 new Image.asset('assets/diamond.png'),
@@ -35,7 +41,53 @@ class _LoginPageState extends State<LoginPage> {
                 const Text('SHRINE'),
               ],
             ),
-            const SizedBox(height: 120.0),
+            const SizedBox(height: 128.0),
+            new TextField(
+              controller: _usernameController,
+              decoration: InputDecoration(
+                filled: true,
+                labelText: "Username",
+                errorText: _usernameError,
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            new TextField(
+              controller: _passwordController,
+              decoration: InputDecoration(
+                filled: true,
+                labelText: "Password",
+                errorText: _passwordError,
+              ),
+              obscureText: true,
+            ),
+            const SizedBox(height: 16.0),
+            new ButtonBar(
+              alignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                new FlatButton(
+                  onPressed: () {
+                    _usernameController.clear();
+                    _passwordController.clear();
+                  },
+                  child: Text("Cancel"),
+                ),
+                new FlatButton(
+                  onPressed: () {
+                    String username = _usernameController.text;
+                    String password = _passwordController.text;
+                    if (username.isNotEmpty && password.isNotEmpty) {
+                      Navigator.pop(context);
+                    } else {
+                      setState(() {
+                        _usernameError = "Username required";
+                        _passwordError = "Password required";
+                      });
+                    }
+                  },
+                  child: Text("Login"),
+                ),
+              ],
+            ),
           ],
         ),
       ),
