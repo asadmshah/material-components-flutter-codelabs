@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import 'package:flutter/material.dart';
+import 'colors.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -42,23 +43,27 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ),
             const SizedBox(height: 128.0),
-            new TextField(
-              controller: _usernameController,
-              decoration: InputDecoration(
-                filled: true,
-                labelText: "Username",
-                errorText: _usernameError,
+            PrimaryColorOverride(
+              color: kShrineBrown900,
+              child: new TextField(
+                controller: _usernameController,
+                decoration: InputDecoration(
+                  labelText: "Username",
+                  errorText: _usernameError,
+                ),
               ),
             ),
             const SizedBox(height: 16.0),
-            new TextField(
-              controller: _passwordController,
-              decoration: InputDecoration(
-                filled: true,
-                labelText: "Password",
-                errorText: _passwordError,
+            PrimaryColorOverride(
+              color: kShrineBrown900,
+              child: new TextField(
+                controller: _passwordController,
+                decoration: InputDecoration(
+                  labelText: "Password",
+                  errorText: _passwordError,
+                ),
+                obscureText: true,
               ),
-              obscureText: true,
             ),
             const SizedBox(height: 16.0),
             new ButtonBar(
@@ -70,6 +75,11 @@ class _LoginPageState extends State<LoginPage> {
                     _passwordController.clear();
                   },
                   child: Text("Cancel"),
+                  shape: BeveledRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(7.0),
+                    ),
+                  ),
                 ),
                 new FlatButton(
                   onPressed: () {
@@ -85,12 +95,33 @@ class _LoginPageState extends State<LoginPage> {
                     }
                   },
                   child: Text("Login"),
+                  shape: BeveledRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(7.0),
+                    ),
+                  ),
                 ),
               ],
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class PrimaryColorOverride extends StatelessWidget {
+  final Color color;
+  final Widget child;
+
+  const PrimaryColorOverride({Key key, this.color, this.child})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Theme(
+      child: child,
+      data: Theme.of(context).copyWith(primaryColor: color),
     );
   }
 }
